@@ -30,7 +30,7 @@ export default function Cart() {
 			<div className="flex">
 				<section className="cart-left-section">
 					<CartItemSelectPanel />
-					<CartItemListHeader />
+					<CartItemListHeader cartListLength={cartItemList?.length ?? 0} />
 					<CartItemList cartItemList={cartItemList ?? []} />
 				</section>
 				<section className="cart-right-section">
