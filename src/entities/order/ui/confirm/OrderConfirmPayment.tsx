@@ -3,12 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Order } from 'src/entities/order/types/order.type';
 import { formatPriceToKRW } from 'src/shared/lib/format';
 import usePutOrderIsPaidMutation from 'src/entities/order/hooks/usePutOrderIsPaidMutation';
-import useAlertStore from 'src/shared/store/useAlertStore';
 import { useLoadNearPayments } from 'near-payments';
 
 export default function OrderConfirmPayment({ orderDetails, id }: Order) {
-	const openAlert = useAlertStore.use.open();
-
 	const navigate = useNavigate();
 
 	const loadNearPayments = useLoadNearPayments({
@@ -28,7 +25,7 @@ export default function OrderConfirmPayment({ orderDetails, id }: Order) {
 			orderId: id,
 			totalAmount: totalPrice,
 			onPaymentComplete: () => putOrderIsPaid({ id }),
-			onPaymentCancel: () => openAlert({ title: '결제 취소', message: '결제가 취소되었습니다.', confirm: () => {} }),
+			onPaymentCancel: () => {},
 		});
 	};
 
