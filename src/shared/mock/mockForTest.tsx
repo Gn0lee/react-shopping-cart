@@ -3,6 +3,7 @@ import { render, renderHook } from '@testing-library/react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { InitialEntry } from 'history';
+import { OverlayProvider } from 'near-payments';
 
 import routes from 'src/routes/Router';
 
@@ -13,7 +14,12 @@ interface RenderWithMemoryRouterOptions {
 
 function QueryClientWrapper({ children }: { children: ReactNode }) {
 	const queryClient = new QueryClient();
-	return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+	return (
+		<OverlayProvider>
+			{' '}
+			<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+		</OverlayProvider>
+	);
 }
 
 export function renderMemoryRouter(options?: RenderWithMemoryRouterOptions) {
