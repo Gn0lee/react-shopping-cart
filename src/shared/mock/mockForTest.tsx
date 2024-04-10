@@ -12,11 +12,10 @@ interface RenderWithMemoryRouterOptions {
 	initialIndex?: number;
 }
 
-function QueryClientWrapper({ children }: { children: ReactNode }) {
+function AppWrapper({ children }: { children: ReactNode }) {
 	const queryClient = new QueryClient();
 	return (
 		<OverlayProvider>
-			{' '}
 			<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 		</OverlayProvider>
 	);
@@ -29,11 +28,11 @@ export function renderMemoryRouter(options?: RenderWithMemoryRouterOptions) {
 	alert.id = 'alert';
 
 	return render(<RouterProvider router={memoryRouter} />, {
-		wrapper: QueryClientWrapper,
+		wrapper: AppWrapper,
 		container: document.body.appendChild(alert),
 	});
 }
 
 export function renderHookWithQueryClient<Result, Props>(callback: (initialProps: Props) => Result) {
-	return renderHook(callback, { wrapper: QueryClientWrapper });
+	return renderHook(callback, { wrapper: AppWrapper });
 }
