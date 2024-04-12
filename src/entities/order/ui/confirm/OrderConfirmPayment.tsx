@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Order } from 'src/entities/order/types/order.type';
 import { formatPriceToKRW } from 'src/shared/lib/format';
 import usePutOrderIsPaidMutation from 'src/entities/order/hooks/usePutOrderIsPaidMutation';
-import useAlertStore from 'src/shared/store/useAlertStore';
+import { useLoadNearPayments } from 'near-payments';
 
 export default function OrderConfirmPayment({ orderDetails, id }: Order) {
-	const openAlert = useAlertStore.use.open();
-
 	const navigate = useNavigate();
+
+	const loadNearPayments = useLoadNearPayments({
+		clientId: 'clientId',
+	});
 
 	const { mutate: putOrderIsPaid, isPending } = usePutOrderIsPaidMutation({
 		onSuccess: () => {
@@ -18,11 +20,12 @@ export default function OrderConfirmPayment({ orderDetails, id }: Order) {
 
 	const totalPrice = orderDetails.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-	const handlePaymentButtonClick = () => {
-		openAlert({
-			title: '결제하기',
-			message: '주문하신 상품을 결제하시겠습니까?',
-			confirm: () => putOrderIsPaid({ id }),
+	const handlePaymentButtonClick = async () => {
+		await loadNearPayments({
+			orderId: id,
+			totalAmount: totalPrice,
+			onPaymentComplete: () => putOrderIsPaid({ id }),
+			onPaymentCancel: () => {},
 		});
 	};
 

@@ -1,6 +1,7 @@
-import { expect, describe, it, beforeEach, afterEach } from 'vitest';
+import { expect, describe, it, beforeEach, afterEach, vi } from 'vitest';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import * as NearPayments from 'near-payments';
 
 import { renderMemoryRouter, renderHookWithQueryClient } from 'src/shared/mock/mockForTest';
 import dbJSON from 'src/shared/mock/db.json';
@@ -16,6 +17,7 @@ describe('주문 결제 페이지 테스트', () => {
 
 	afterEach(() => {
 		clearMockOrderList();
+		vi.restoreAllMocks();
 	});
 
 	it('주문 상세 api로 호출된 데이터를 화면에 나타낸다.', async () => {
@@ -35,21 +37,24 @@ describe('주문 결제 페이지 테스트', () => {
 		});
 	});
 
-	it('결제하기 버튼을 클릭하면 alert가 팝업되며 확인 버튼 클릭시 주문 정보가 갱신되며 주문목록 페이지로 이동한다.', async () => {
+	it('결제하기 버튼을 클릭하면 near-payments의 load함수가 실행된다.', async () => {
+		vi.mock('near-payments', async importOriginal => {
+			const actual = await importOriginal();
+			const loadNearPaymentsMock = vi.fn(() => {});
+
+			return {
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-expect-error
+				...actual,
+				useLoadNearPayments: vi.fn(() => loadNearPaymentsMock),
+			};
+		});
 		const confirmPaymentButton = await screen.findByLabelText('confirm-payment');
+
+		const loadNearPayments = NearPayments.useLoadNearPayments({ clientId: 'clientId' });
 
 		await userEvent.click(confirmPaymentButton);
 
-		const alert = screen.queryByTestId('alert');
-
-		expect(alert).not.toBeNull();
-
-		const alertConfirmButton = await screen.findByLabelText('alert-confirm-button');
-
-		await userEvent.click(alertConfirmButton);
-
-		expect(MOCK_ORDER_LIST[0].isPaid).toBeTruthy();
-
-		expect(screen.queryByTestId('order-list-page')).not.toBeNull();
+		expect(loadNearPayments).toHaveBeenCalled();
 	});
 });
