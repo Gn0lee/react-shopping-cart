@@ -12,7 +12,7 @@ describe('상품 목록 페이지 테스트', () => {
 	it('상품이 없으면 "상품이 존재하지 않습니다." 메시지가 표시된다.', async () => {
 		server.use(getProductListMockHandler([]));
 
-		renderMemoryRouter();
+		renderMemoryRouter({ initialEntries: ['/product'] });
 
 		await waitFor(() => {
 			const productListItems = screen.queryAllByTestId('product-list-item');
@@ -23,7 +23,7 @@ describe('상품 목록 페이지 테스트', () => {
 	});
 
 	it('상품을 클릭하면 해당 상품의 상세 페이지로 이동한다.', async () => {
-		renderMemoryRouter();
+		renderMemoryRouter({ initialEntries: ['/product'] });
 
 		const productListItems = await screen.findAllByTestId('product-list-item');
 
@@ -35,7 +35,7 @@ describe('상품 목록 페이지 테스트', () => {
 	});
 
 	it('장바구니 버튼을 클릭하면 alert가 팝업되며 장바구니에 상품이 추가된다.', async () => {
-		renderMemoryRouter();
+		renderMemoryRouter({ initialEntries: ['/product'] });
 
 		const productCartButton = await screen.findByTestId(`product-cart-button-${dbJson.products[0].id}`);
 

@@ -22,13 +22,14 @@ export const EmptyList: Story = {
 		},
 		reactRouter: reactRouterParameters({
 			location: {
-				path: '/',
+				path: '/product',
 			},
 			routing: {
 				path: '/',
 				element: <RootLayout />,
 				children: [
 					{
+						path: 'product',
 						index: true,
 						useStoryElement: true,
 					},
@@ -53,13 +54,14 @@ export const WithList: Story = {
 		},
 		reactRouter: reactRouterParameters({
 			location: {
-				path: '/',
+				path: '/product',
 			},
 			routing: {
 				path: '/',
 				element: <RootLayout />,
 				children: [
 					{
+						path: 'product',
 						index: true,
 						useStoryElement: true,
 					},

@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react';
 import { initialize, mswLoader } from 'msw-storybook-addon';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import axiosInstance from 'src/shared/lib/axiosInstance';
 
 import 'src/css/index.css';
 
@@ -28,7 +29,12 @@ const preview: Preview = {
 			);
 		},
 	],
-	loaders: [mswLoader],
+	loaders: [
+		mswLoader,
+		() => {
+			axiosInstance.defaults.headers.uid = 'test-uid';
+		},
+	],
 };
 
 export default preview;

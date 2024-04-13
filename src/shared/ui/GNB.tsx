@@ -9,7 +9,7 @@ export default function GNB() {
 		<nav className="nav flex justify-around">
 			<div className="flex-center">
 				<h1 className="nav-title" data-testid="gnb-home">
-					<Link to="/">CLEAN CODE SHOP</Link>
+					<Link to="/product">CLEAN CODE SHOP</Link>
 				</h1>
 			</div>
 			<div className="flex gap-15 items-center">

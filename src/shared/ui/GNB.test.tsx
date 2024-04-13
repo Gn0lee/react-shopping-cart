@@ -6,7 +6,7 @@ import { renderMemoryRouter } from 'src/shared/mock/mockForTest';
 
 describe('GNB 테스트', () => {
 	beforeEach(() => {
-		renderMemoryRouter();
+		renderMemoryRouter({ initialEntries: ['/product'] });
 	});
 
 	it('장바구니 버튼을 클릭하면 장바구니 페이지로 이동한다.', async () => {

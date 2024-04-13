@@ -4,7 +4,13 @@ import { OverlayProvider } from 'near-payments';
 
 import routes from 'src/routes/Router';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			retry: false,
+		},
+	},
+});
 
 export default function App() {
 	return (

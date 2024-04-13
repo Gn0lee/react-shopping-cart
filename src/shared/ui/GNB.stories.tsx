@@ -18,22 +18,22 @@ export const GNB: Story = {
 	parameters: {
 		reactRouter: reactRouterParameters({
 			location: {
-				path: '/',
+				path: '/product',
 			},
-			routing: {
-				path: '/',
-				useStoryElement: true,
-				children: [
-					{
-						path: 'cart',
-						Component: () => <div>Cart</div>,
-					},
-					{
-						path: 'order/list',
-						Component: () => <div>Order List</div>,
-					},
-				],
-			},
+			routing: [
+				{
+					path: '/product',
+					useStoryElement: true,
+				},
+				{
+					path: 'cart',
+					Component: () => <div>Cart</div>,
+				},
+				{
+					path: 'order/list',
+					Component: () => <div>Order List</div>,
+				},
+			],
 		}),
 	},
 };
