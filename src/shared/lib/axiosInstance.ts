@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { getUIDSessionStorage, UID_KEY } from 'src/entities/user/lib/sessionStorage';
 
+export const axiosCancelSource = axios.CancelToken.source();
+
 const axiosInstance = axios.create({
 	baseURL: import.meta.env.VITE_API_ENDPOINT,
 	headers: {
@@ -23,6 +25,7 @@ axiosInstance.interceptors.request.use(config => {
 	}
 
 	if (uidHeader === undefined && uidSessionStorage === null) {
+		config.cancelToken = axiosCancelSource.token;
 		alert('유저 정보를 입력해 주세요.');
 		window.location.replace('/');
 	}
