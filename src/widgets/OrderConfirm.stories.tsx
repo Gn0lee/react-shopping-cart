@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { withRouter, reactRouterParameters } from 'storybook-addon-remix-react-router';
 import { useEffect } from 'react';
+import { OverlayProvider } from 'near-payments';
 
 import RootLayout from 'src/shared/ui/RootLayout';
 import OrderConfirmComponent from 'src/widgets/OrderConfirm';
@@ -11,7 +12,14 @@ import dbJSON from 'src/shared/mock/db.json';
 
 const meta: Meta = {
 	component: OrderConfirmComponent,
-	decorators: [withRouter],
+	decorators: [
+		withRouter,
+		Story => (
+			<OverlayProvider>
+				<Story />
+			</OverlayProvider>
+		),
+	],
 };
 
 export default meta;
