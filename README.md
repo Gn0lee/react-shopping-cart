@@ -53,4 +53,6 @@ VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 - react-router-dom
 - react-query
 - zustand
+- msw
+- storybook
 - [near-payments](https://www.npmjs.com/package/near-payments)
