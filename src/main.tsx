@@ -14,6 +14,9 @@ async function enableMocking() {
 
 	return setupWorker(...httpHandlers).start({
 		onUnhandledRequest: 'bypass',
+		serviceWorker: {
+			url: import.meta.env.DEV ? '/mockServiceWorker.js' : '/react-shopping-cart/mockServiceWorker.js',
+		},
 	});
 }
 
