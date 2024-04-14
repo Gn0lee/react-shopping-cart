@@ -20,7 +20,7 @@ describe('주문 목록 페이지 테스트', () => {
 
 		const orderList = await screen.findAllByTestId('order-list-item');
 
-		expect(orderList).toHaveLength(result.current.data.length);
+		expect(orderList).toHaveLength(result.current.data?.length ?? 0);
 	});
 
 	it('주문 목록이 없으면 "주문이 없습니다." 메시지가 표시된다.', async () => {
@@ -50,7 +50,7 @@ describe('주문 목록 페이지 테스트', () => {
 
 		await waitFor(() => {
 			expect(result.current.data).toHaveLength(1);
-			expect(result.current.data[0].product.id).toBe(dbJSON.orders[0].orderDetails[0].id);
+			expect(result.current.data?.at(0)?.product.id).toBe(dbJSON.orders[0].orderDetails[0].id);
 		});
 	});
 
