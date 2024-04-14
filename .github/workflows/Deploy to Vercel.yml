@@ -1,0 +1,32 @@
+name: Deploy to Vercel
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: write # This is required for actions/checkout
+
+jobs:
+  deploy:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment: Production
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.12.1
+          registry-url: https://registry.npmjs.org
+
+      - name: Install Vercel CLI
+        run: yarn global add vercel
+
+      - name: Build Project Artifacts
+        run: |
+          vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
