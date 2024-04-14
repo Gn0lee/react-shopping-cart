@@ -7,6 +7,9 @@ import 'src/css/index.css';
 
 initialize({
 	onUnhandledRequest: 'bypass',
+	serviceWorker: {
+		url: './mockServiceWorker.js',
+	},
 });
 
 const preview: Preview = {
